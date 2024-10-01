@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import * as XLSX from 'xlsx';
+import './DiagnosisTable.css';
 
 const CalculateScoreButton = ({ profileId }) => {
     const [diagnosisData, setDiagnosisData] = useState(null);  // Store the Provisional Diagnosis data
@@ -180,16 +181,29 @@ const CalculateScoreButton = ({ profileId }) => {
     };
 
     return (
-        <div>
-            <button onClick={calculateScore}>Calculate Score and Extract Data</button>
+        <div className="calculate-score-container">
+            <button className="calculate-score-button" onClick={calculateScore}>
+                Calculate Score and Extract Data
+            </button>
             {diagnosisData && (
-                <div>
+                <div className="diagnosis-data-container">
                     <h3>Extracted Provisional Diagnosis Data:</h3>
-                    <pre>{JSON.stringify(diagnosisData, null, 2)}</pre>  {/* Render extracted data */}
+                    <table className="diagnosis-table">
+                        <tbody>
+                            {diagnosisData.map((row, rowIndex) => (
+                                <tr key={rowIndex}>
+                                    {row.map((cell, cellIndex) => (
+                                        <td key={cellIndex}>{cell}</td>
+                                    ))}
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
                 </div>
             )}
-            </div>
+        </div>
     );
+    
 };
 
 export default CalculateScoreButton;
